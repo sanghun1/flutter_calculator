@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 
 class CalculatorController extends GetxController{
@@ -7,6 +9,7 @@ class CalculatorController extends GetxController{
 
   int operationNum = 0;
   bool numState = false;
+  String xOperationString = "";
   String operationString = "";
   String errorMsg = "";
   String resultBackString = "";
@@ -177,7 +180,7 @@ class CalculatorController extends GetxController{
     }
 
     resultBackString = "=";
-    resultString = resultNum + resultBackString;
+    resultString = "$resultNum $resultBackString";
     update();
   }
 
@@ -195,6 +198,25 @@ class CalculatorController extends GetxController{
 
     operationNum = 0;
     operationString = "";
+    update();
+  }
+
+  void delete(){
+    if(double.parse(secondNum) >= 10){
+      secondNum = ((int.parse(secondNum) / 10).floor()).toString();
+    }
+    else if(double.parse(secondNum) <= 9){
+      secondNum = "0";
+    }
+    update();
+  }
+
+  void log(){
+    xOperationString = "√( ";
+    operationString = " )";
+
+    firstNum = secondNum;
+    secondNum = (sqrt(double.parse(secondNum))).toString();
     update();
   }
 }

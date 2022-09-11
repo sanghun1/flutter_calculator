@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
                         child: GetBuilder<CalculatorController>(
                           builder: (controller) {
                             return Text(
-                              "${_calculatorController.firstNum} ${_calculatorController.operationString} ${_calculatorController.resultString}",
+                              "${_calculatorController.xOperationString} ${_calculatorController.firstNum} ${_calculatorController.operationString} ${_calculatorController.resultString}",
 
                               style: TextStyle(fontSize: 20, color: Color(0xffA6A6A6)),
                             );
@@ -142,7 +142,9 @@ class MyApp extends StatelessWidget {
                       ConstrainedBox(
                         constraints: BoxConstraints.tightFor(height: 100),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _calculatorController.delete();
+                          },
                           style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
                           child: Center(child: Text("DEL", style: TextStyle(fontSize: 30, color: Colors.white))),
                         ),
@@ -171,7 +173,9 @@ class MyApp extends StatelessWidget {
                       ConstrainedBox(
                         constraints: BoxConstraints.tightFor(height: 100),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _calculatorController.log();
+                          },
                           style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
                           child: Center(child: Text("²√x", style: TextStyle(fontSize: 30, color: Colors.white))),
                         ),
