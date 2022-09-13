@@ -8,6 +8,7 @@ class CalculatorController extends GetxController{
   String secondNum = "0";
 
   int operationNum = 0;
+  int numLength = 0;
   bool numState = false;
   String xOperationString = "";
   String operationString = "";
@@ -18,14 +19,32 @@ class CalculatorController extends GetxController{
 
 
   void num(String value){
-    if(secondNum == "0" || numState){
+    if(secondNum.contains(".")){
+      numLength = secondNum.length - 1;
+    }
+    else{
+      numLength = secondNum.length;
+    }
+
+    if(secondNum == "0" || numState && numLength < 16){
       numState = false;
       secondNum = value;
     }
-    else if(secondNum != "0"){
+    else if(secondNum != "0" && numLength < 16){
       secondNum = "$secondNum" "$value";
     }
-
+    else if(numLength >= 16){
+      secondNum = secondNum;
+    }
+    update();
+  }
+  void dot(){
+    if(secondNum.contains(".")){
+      secondNum = secondNum;
+    }
+    else{
+      secondNum = "$secondNum" ".";
+    }
     update();
   }
   void operation(String value){
@@ -197,6 +216,7 @@ class CalculatorController extends GetxController{
     resultString = "";
 
     operationNum = 0;
+    xOperationString = "";
     operationString = "";
     update();
   }
@@ -212,11 +232,51 @@ class CalculatorController extends GetxController{
   }
 
   void log(){
-    xOperationString = "√( ";
-    operationString = " )";
+    xOperationString = "√($xOperationString";
+    operationString = ")$operationString";
 
-    firstNum = secondNum;
-    secondNum = (sqrt(double.parse(secondNum))).toString();
+    if(firstNum == ""){
+      firstNum = secondNum;
+    }
+    secondNum = (sqrt(double.parse(secondNum))).toStringAsPrecision(16);
+    update();
+  }
+
+  void fraction(){
+    xOperationString = "1/($xOperationString";
+    operationString = ")$operationString";
+
+    if(firstNum == ""){
+      firstNum = secondNum;
+    }
+    secondNum = (1 / double.parse(secondNum)).toStringAsPrecision(16);
+    update();
+  }
+
+  void squared(){
+    xOperationString = "sqr($xOperationString";
+    operationString = ")$operationString";
+
+    if(firstNum == ""){
+      firstNum = secondNum;
+    }
+    secondNum = (double.parse(secondNum) * double.parse(secondNum)).toString();
+    update();
+  }
+
+  void negative(){
+    secondNum = (double.parse(secondNum) * (-1)).toString();
+    update();
+  }
+
+  void count(){
+    secondNum = "555";
+    if(secondNum.contains(".")){
+      firstNum = "true";
+    }
+    else{
+      firstNum = "false";
+    }
     update();
   }
 }

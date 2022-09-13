@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
                           builder: (controller) {
                             return Text(
                               "${_calculatorController.xOperationString} ${_calculatorController.firstNum} ${_calculatorController.operationString} ${_calculatorController.resultString}",
-
                               style: TextStyle(fontSize: 20, color: Color(0xffA6A6A6)),
                             );
                           },
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
                           builder: (controller) {
                             return Text(
                               "${_calculatorController.secondNum}${_calculatorController.errorMsg}",
-                              style: TextStyle(fontSize: 50, color: Colors.white),
+                              style: TextStyle(fontSize: 35, color: Colors.white),
                             );
                           },
                         ),
@@ -114,7 +113,9 @@ class MyApp extends StatelessWidget {
                       ConstrainedBox(
                         constraints: BoxConstraints.tightFor(height: 100),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _calculatorController.count();
+                          },
                           style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
                           child: Center(child: Text("%", style: TextStyle(fontSize: 30, color: Colors.white))),
                         ),
@@ -157,7 +158,9 @@ class MyApp extends StatelessWidget {
                       ConstrainedBox(
                         constraints: BoxConstraints.tightFor(height: 100),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _calculatorController.fraction();
+                          },
                           style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
                           child: Center(child: Text("1/X", style: TextStyle(fontSize: 30, color: Colors.white))),
                         ),
@@ -165,7 +168,9 @@ class MyApp extends StatelessWidget {
                       ConstrainedBox(
                         constraints: BoxConstraints.tightFor(height: 100),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _calculatorController.squared();
+                          },
                           style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
                           child: Center(child: Text("x²", style: TextStyle(fontSize: 30, color: Colors.white))),
                         ),
@@ -333,7 +338,9 @@ class MyApp extends StatelessWidget {
                       ConstrainedBox(
                         constraints: BoxConstraints.tightFor(height: 100),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _calculatorController.negative();
+                          },
                           style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
                           child: Center(child: Text("+/_", style: TextStyle(fontSize: 30, color: Colors.white))),
                         ),
@@ -351,7 +358,9 @@ class MyApp extends StatelessWidget {
                       ConstrainedBox(
                         constraints: BoxConstraints.tightFor(height: 100),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _calculatorController.dot();
+                          },
                           style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
                           child: Center(child: Text(".", style: TextStyle(fontSize: 30, color: Colors.white))),
                         ),
