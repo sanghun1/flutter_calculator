@@ -215,7 +215,7 @@ class CalculatorController extends GetxController{
     resultNum = "";
     resultString = "";
 
-    operationNum = 0;
+    // operationNum = 0;
     xOperationString = "";
     operationString = "";
     update();
@@ -266,6 +266,24 @@ class CalculatorController extends GetxController{
 
   void negative(){
     secondNum = (double.parse(secondNum) * (-1)).toString();
+    update();
+  }
+
+  void percentFunction(){
+    if(!(operationString == "+" || operationString == "-" || operationString == "*" || operationString == "÷")){
+      firstNum = "0";
+      secondNum = "0";
+
+      xOperationString = "";
+      operationString = "";
+
+      resultNum = "";
+      resultString = "";
+    }
+    else{
+      resultString = (double.parse(firstNum) * (double.parse(firstNum) / 100)).toString();
+      secondNum = resultString;
+    }
     update();
   }
 

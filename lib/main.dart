@@ -114,7 +114,7 @@ class MyApp extends StatelessWidget {
                         constraints: BoxConstraints.tightFor(height: 100),
                         child: ElevatedButton(
                           onPressed: () {
-                            _calculatorController.count();
+                            _calculatorController.percentFunction();
                           },
                           style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
                           child: Center(child: Text("%", style: TextStyle(fontSize: 30, color: Colors.white))),
