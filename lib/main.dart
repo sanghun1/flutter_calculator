@@ -57,7 +57,9 @@ class MyApp extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints.tightFor(width: 80, height: 40),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _calculatorController.memoryClear();
+                      },
                       style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
                       child: Text("MC"),
                     ),
@@ -65,7 +67,9 @@ class MyApp extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints.tightFor(width: 80, height: 40),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _calculatorController.memoryRead();
+                      },
                       style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
                       child: Text("MR"),
                     ),
@@ -73,7 +77,9 @@ class MyApp extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints.tightFor(width: 80, height: 40),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _calculatorController.memoryPlus();
+                      },
                       style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
                       child: Text("M+"),
                     ),
@@ -81,7 +87,9 @@ class MyApp extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints.tightFor(width: 80, height: 40),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _calculatorController.memoryMinus();
+                      },
                       style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
                       child: Text("M-"),
                     ),
@@ -89,7 +97,9 @@ class MyApp extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints.tightFor(width: 80, height: 40),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _calculatorController.memorySave();
+                      },
                       style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
                       child: Text("MS"),
                     ),

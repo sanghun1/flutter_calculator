@@ -10,13 +10,45 @@ class CalculatorController extends GetxController{
   int operationNum = 0;
   int numLength = 0;
   bool numState = false;
+  bool memoryDisable = true;
   String xOperationString = "";
   String operationString = "";
   String errorMsg = "";
   String resultBackString = "";
   String resultNum = "";
   String resultString = "";
+  String memoryNum = "";
+  String memoryConvertNum = "";
 
+  void memorySave(){
+    memoryNum = secondNum;
+    memoryConvertNum = memoryNum;
+    // if(memoryNum != ""){
+    //   memoryDisable = false;
+    // }
+    update();
+  }
+
+  void memoryRead(){
+    secondNum = memoryNum;
+    update();
+  }
+
+  void memoryClear(){
+    memoryNum = "";
+    memoryConvertNum = "";
+    update();
+  }
+
+  void memoryPlus(){
+    memoryNum = (double.parse(memoryNum) + double.parse(memoryConvertNum)).toString();
+    update();
+  }
+
+  void memoryMinus(){
+    memoryNum = (double.parse(memoryNum) - double.parse(memoryConvertNum)).toString();
+    update();
+  }
 
   void num(String value){
     if(secondNum.contains(".")){
