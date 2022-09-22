@@ -6,12 +6,21 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final CalculatorController _calculatorController = Get.put(CalculatorController());
+
   String num = "0";
+  bool isDisable = false;
 
   @override
   Widget build(BuildContext context) {
+    // dynamic size = MediaQuery.of(context).size;
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SafeArea(
@@ -26,7 +35,7 @@ class MyApp extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
-                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        padding: EdgeInsets.symmetric(vertical: Get.height * 0.04, horizontal: Get.width * 0.01),
                         child: GetBuilder<CalculatorController>(
                           builder: (controller) {
                             return Text(
@@ -37,12 +46,12 @@ class MyApp extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.fromLTRB(10, 0, 10, 20),
+                        padding: EdgeInsets.fromLTRB(Get.width * 0.02, 0, Get.width * 0.02, Get.height * 0.06),
                         child: GetBuilder<CalculatorController>(
                           builder: (controller) {
                             return Text(
                               "${_calculatorController.secondNum}${_calculatorController.errorMsg}",
-                              style: TextStyle(fontSize: 35, color: Colors.white),
+                              style: TextStyle(fontSize: 38, color: Colors.white),
                             );
                           },
                         ),
@@ -51,347 +60,257 @@ class MyApp extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Expanded(child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(width: 80, height: 40),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _calculatorController.memoryClear();
-                      },
-                      style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
-                      child: Text("MC"),
-                    ),
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(width: 80, height: 40),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _calculatorController.memoryRead();
-                      },
-                      style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
-                      child: Text("MR"),
-                    ),
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(width: 80, height: 40),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _calculatorController.memoryPlus();
-                      },
-                      style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
-                      child: Text("M+"),
-                    ),
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(width: 80, height: 40),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _calculatorController.memoryMinus();
-                      },
-                      style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
-                      child: Text("M-"),
-                    ),
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(width: 80, height: 40),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _calculatorController.memorySave();
-                      },
-                      style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
-                      child: Text("MS"),
-                    ),
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(width: 80, height: 40),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
-                      child: Text("Mv"),
-                    ),
-                  ),
-                ],
-              ),
-              Table(
-                border: TableBorder.all(color: Color(0xff202020), width: 3),
-                children: [
-                  TableRow(
-                    // 1
-                    children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
                       ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
+                        constraints: BoxConstraints.tightFor(width: Get.width * 0.18, height: Get.height * 0.06),
                         child: ElevatedButton(
                           onPressed: () {
-                            _calculatorController.percentFunction();
+                            setState(() {
+                              _calculatorController.memoryClear();
+                            });
                           },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("%", style: TextStyle(fontSize: 30, color: Colors.white))),
+                          style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
+                          child: Text("MC"),
                         ),
                       ),
                       ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
+                        constraints: BoxConstraints.tightFor(width: Get.width * 0.18, height: Get.height * 0.06),
                         child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.CE();
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("CE", style: TextStyle(fontSize: 30, color: Colors.white))),
+                          onPressed: _calculatorController.memoryDisable ? () => _calculatorController.memoryRead() : null,
+                          style: ElevatedButton.styleFrom(primary: Color(0xff202020), onSurface: Color(0xff202020)),
+                          child: Text("MR", style: TextStyle(color: _calculatorController.memoryDisable ? Colors.white : Color(0xff717171))),
                         ),
                       ),
                       ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
+                        constraints: BoxConstraints.tightFor(width: Get.width * 0.18, height: Get.height * 0.06),
                         child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.C();
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("C", style: TextStyle(fontSize: 30, color: Colors.white))),
+                          onPressed: _calculatorController.memoryDisable ? () => _calculatorController.memoryPlus() : null,
+                          style: ElevatedButton.styleFrom(primary: Color(0xff202020), onSurface: Color(0xff202020)),
+                          child: Text("M+", style: TextStyle(color: _calculatorController.memoryDisable ? Colors.white : Color(0xff717171))),
                         ),
                       ),
                       ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
+                        constraints: BoxConstraints.tightFor(width: Get.width * 0.18, height: Get.height * 0.06),
+                        child: ElevatedButton(
+                          onPressed: _calculatorController.memoryDisable ? () => _calculatorController.memoryMinus() : null,
+                          style: ElevatedButton.styleFrom(primary: Color(0xff202020), onSurface: Color(0xff202020)),
+                          child: Text("M-", style: TextStyle(color: _calculatorController.memoryDisable ? Colors.white : Color(0xff717171))),
+                        ),
+                      ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints.tightFor(width: Get.width * 0.18, height: Get.height * 0.06),
                         child: ElevatedButton(
                           onPressed: () {
-                            _calculatorController.delete();
+                            setState(() {
+                              _calculatorController.memorySave();
+                            });
                           },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("DEL", style: TextStyle(fontSize: 30, color: Colors.white))),
+                          style: ElevatedButton.styleFrom(primary: Color(0xff202020)),
+                          child: Text("MS"),
                         ),
                       ),
                     ],
                   ),
-                  TableRow(
-                    // 2
-                    children: <Widget>[
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.fraction();
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("1/X", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
+                  Table(
+                    border: TableBorder.all(color: Color(0xff202020), width: 3),
+                    children: [
+                      TableRow(
+                        // 1
+                        children: <Widget>[
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.percentFunction();
+                                print(Get.height);
+                                print(Get.width);
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
+                              child: Center(child: Text("%", style: TextStyle(fontSize: 30, color: Colors.white))),
+                            ),
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.CE();
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
+                              child: Center(child: Text("CE", style: TextStyle(fontSize: 30, color: Colors.white))),
+                            ),
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.C();
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
+                              child: Center(child: Text("C", style: TextStyle(fontSize: 30, color: Colors.white))),
+                            ),
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.delete();
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
+                              child: Center(child: Text("DEL", style: TextStyle(fontSize: 30, color: Colors.white))),
+                            ),
+                          ),
+                        ],
                       ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.squared();
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("x²", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
+                      TableRow(
+                        // 2
+                        children: <Widget>[
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.fraction();
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
+                              child: Center(child: Text("1/X", style: TextStyle(fontSize: 30, color: Colors.white))),
+                            ),
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.squared();
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
+                              child: Center(child: Text("x²", style: TextStyle(fontSize: 30, color: Colors.white))),
+                            ),
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.log();
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
+                              child: Center(child: Text("²√x", style: TextStyle(fontSize: 30, color: Colors.white))),
+                            ),
+                          ),
+                          operationConstrainBox("multiply", "*"),
+                        ],
                       ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.log();
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("²√x", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
+                      TableRow(
+                        // 3
+                        children: <Widget>[
+                          numConstrainBox("7"),
+                          numConstrainBox("8"),
+                          numConstrainBox("9"),
+                          operationConstrainBox("multiply", "*"),
+                        ],
                       ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.operation("divide");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("÷", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
+                      TableRow(
+                        // 4
+                        children: <Widget>[
+                          numConstrainBox("4"),
+                          numConstrainBox("5"),
+                          numConstrainBox("6"),
+                          operationConstrainBox("subtract", "-"),
+                        ],
                       ),
-                    ],
-                  ),
-                  TableRow(
-                    // 3
-                    children: <Widget>[
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("7");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("7", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
+                      TableRow(
+                        // 5
+                        children: <Widget>[
+                          numConstrainBox("1"),
+                          numConstrainBox("2"),
+                          numConstrainBox("3"),
+                          operationConstrainBox("plus", "+"),
+                        ],
                       ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("8");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("8", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("9");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("9", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.operation("multiply");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("*", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    // 4
-                    children: <Widget>[
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("4");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("4", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("5");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("5", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("6");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("6", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.operation("subtract");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("-", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    // 5
-                    children: <Widget>[
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("1");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("1", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("2");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("2", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("3");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("3", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.operation("plus");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
-                          child: Center(child: Text("+", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    // 6
-                    children: <Widget>[
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.negative();
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("+/_", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.num("0");
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text("0", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.dot();
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
-                          child: Center(child: Text(".", style: TextStyle(fontSize: 30, color: Colors.white))),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(height: 100),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _calculatorController.result();
-                          },
-                          style: ElevatedButton.styleFrom(primary: Color(0xffA6A5A1)),
-                          child: Center(child: Text("=", style: TextStyle(fontSize: 30, color: Color(0xff202020)))),
-                        ),
-                      ),
+                      TableRow(
+                        // 6
+                        children: <Widget>[
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.negative();
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
+                              child: Center(child: Text("+/_", style: TextStyle(fontSize: 30, color: Colors.white))),
+                            ),
+                          ),
+                          numConstrainBox("0"),
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.dot();
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
+                              child: Center(child: Text(".", style: TextStyle(fontSize: 30, color: Colors.white))),
+                            ),
+                          ),
+                          // exConstrainBox(_calculatorController.result(), "="),
+                          ConstrainedBox(
+                            constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _calculatorController.result();
+                              },
+                              style: ElevatedButton.styleFrom(primary: Color(0xffA6A5A1)),
+                              child: Center(child: Text("=", style: TextStyle(fontSize: 30, color: Color(0xff202020)))),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   )
                 ],
-              )
+              ))
+
             ],
           ),
         ),
+      ),
+    );
+  }
+//_calculatorController.result()
+  Widget numConstrainBox(String number) {
+    return ConstrainedBox(
+      constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+      child: ElevatedButton(
+        onPressed: () {
+          _calculatorController.num(number);
+        },
+        style: ElevatedButton.styleFrom(primary: Color(0xff3B3B3B)),
+        child: Center(child: Text(number, style: TextStyle(fontSize: 30, color: Colors.white))),
+      ),
+    );
+  }
+
+  Widget operationConstrainBox(String operation, String symbol) {
+    return ConstrainedBox(
+      constraints: BoxConstraints.tightFor(height: Get.height * 0.11),
+      child: ElevatedButton(
+        onPressed: () {
+          _calculatorController.operation(operation);
+        },
+        style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
+        child: Center(child: Text(symbol, style: TextStyle(fontSize: 30, color: Colors.white))),
+      ),
+    );
+  }
+
+  Widget exConstrainBox(void function, String symbol) {
+    return ConstrainedBox(
+      constraints: BoxConstraints.tightFor(height: 100),
+      child: ElevatedButton(
+        onPressed: () => function,
+        style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
+        child: Center(child: Text(symbol, style: TextStyle(fontSize: 30, color: Colors.white))),
       ),
     );
   }

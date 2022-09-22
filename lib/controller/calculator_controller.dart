@@ -10,7 +10,7 @@ class CalculatorController extends GetxController{
   int operationNum = 0;
   int numLength = 0;
   bool numState = false;
-  bool memoryDisable = true;
+  bool memoryDisable = false;
   String xOperationString = "";
   String operationString = "";
   String errorMsg = "";
@@ -21,31 +21,31 @@ class CalculatorController extends GetxController{
   String memoryConvertNum = "";
 
   void memorySave(){
+    if(memoryNum == ""){
+      memoryDisable = true;
+    }
     memoryNum = secondNum;
     memoryConvertNum = memoryNum;
-    // if(memoryNum != ""){
-    //   memoryDisable = false;
-    // }
     update();
   }
 
-  void memoryRead(){
+  memoryRead(){
     secondNum = memoryNum;
     update();
   }
 
-  void memoryClear(){
+  memoryClear(){
+    memoryDisable = false;
     memoryNum = "";
     memoryConvertNum = "";
     update();
   }
-
-  void memoryPlus(){
+  memoryPlus(){
     memoryNum = (double.parse(memoryNum) + double.parse(memoryConvertNum)).toString();
     update();
   }
 
-  void memoryMinus(){
+  memoryMinus(){
     memoryNum = (double.parse(memoryNum) - double.parse(memoryConvertNum)).toString();
     update();
   }
@@ -185,7 +185,7 @@ class CalculatorController extends GetxController{
     numState = true;
     update();
   }
-  void result(){
+ void result(){
     if(operationString == "+"){
       if(resultNum == ""){
         resultNum = secondNum;
@@ -232,6 +232,7 @@ class CalculatorController extends GetxController{
 
     resultBackString = "=";
     resultString = "$resultNum $resultBackString";
+    print("됨?");
     update();
   }
 
