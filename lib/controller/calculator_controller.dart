@@ -175,6 +175,7 @@ class CalculatorController extends GetxController{
             firstNum = (double.parse(firstNum) / double.parse(secondNum)).toString();
             operationString = "÷";
           }
+          operationString = "÷";
         }
         else{
           operationString = "÷";
@@ -232,8 +233,8 @@ class CalculatorController extends GetxController{
 
     resultBackString = "=";
     resultString = "$resultNum $resultBackString";
-    print("됨?");
     update();
+
   }
 
   void CE(){
@@ -282,7 +283,12 @@ class CalculatorController extends GetxController{
     if(firstNum == ""){
       firstNum = secondNum;
     }
-    secondNum = (1 / double.parse(secondNum)).toStringAsPrecision(16);
+    if(double.parse(secondNum) < 1){
+      secondNum = (1 / double.parse(secondNum)).toString();
+    }
+    else{
+      secondNum = (1 / double.parse(secondNum)).toStringAsPrecision(16);
+    }
     update();
   }
 
@@ -314,7 +320,7 @@ class CalculatorController extends GetxController{
       resultString = "";
     }
     else{
-      resultString = (double.parse(firstNum) * (double.parse(firstNum) / 100)).toString();
+      resultString = (double.parse(firstNum) * (double.parse(secondNum) / 100)).toString();
       secondNum = resultString;
     }
     update();

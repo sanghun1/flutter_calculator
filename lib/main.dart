@@ -127,8 +127,6 @@ class _MyAppState extends State<MyApp> {
                             child: ElevatedButton(
                               onPressed: () {
                                 _calculatorController.percentFunction();
-                                print(Get.height);
-                                print(Get.width);
                               },
                               style: ElevatedButton.styleFrom(primary: Color(0xff323232)),
                               child: Center(child: Text("%", style: TextStyle(fontSize: 30, color: Colors.white))),
@@ -199,7 +197,7 @@ class _MyAppState extends State<MyApp> {
                               child: Center(child: Text("²√x", style: TextStyle(fontSize: 30, color: Colors.white))),
                             ),
                           ),
-                          operationConstrainBox("multiply", "*"),
+                          operationConstrainBox("divide", "÷"),
                         ],
                       ),
                       TableRow(
